@@ -1,0 +1,11 @@
+xrandr --output DisplayPort-1 --primary --right-of HDMI-A-0
+xset r rate 256 32
+xsetroot -solid black
+xrdb -merge ~/.Xresources
+
+while xsetroot -name "`date +'[%A %b %d | %Y] [%H:%M:%S]'` "
+do
+	sleep 1
+done &
+
+exec dwm
