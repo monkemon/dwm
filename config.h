@@ -73,6 +73,7 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_night, "-nf", col_silver, "-sb", col_orange_d, "-sf", col_silver, NULL };
 static const char *termcmd[]  = { "st", NULL };
+static const char *flameshotcmd[]  = { "flameshot", "gui", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -109,6 +110,7 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	{ Mod4Mask|ShiftMask,           XK_s,      spawn,          {.v = flameshotcmd } },
 };
 
 /* button definitions */
