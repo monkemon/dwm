@@ -130,3 +130,24 @@ static const Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
 
+/* My code - multi-colored borders */
+typedef struct 
+{
+	const char* xclass;
+	const unsigned long color;
+} BorderColorRule;
+
+static const unsigned long bcr_discord  = 0x3d5bc4;
+static const unsigned long bcr_spotify  = 0x1db954;
+static const unsigned long bcr_steam    = 0x0e1b3d;
+static const unsigned long bcr_chromium = 0xccc041;
+static const unsigned long bcr_default  = 0xff6500;
+
+
+static const BorderColorRule bcr_scheme[] = {
+	{"default",  bcr_default},
+	{"discord",  bcr_discord},
+	{"Spotify",  bcr_spotify},
+	{"Steam",    bcr_steam},
+	{"Chromium", bcr_chromium}
+};

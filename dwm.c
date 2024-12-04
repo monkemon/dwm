@@ -106,6 +106,7 @@ struct Client {
 	int basew, baseh, incw, inch, maxw, maxh, minw, minh, hintsvalid;
 	int bw, oldbw;
 	unsigned int tags;
+	unsigned int bordercoloridx;
 	int isfixed, isfloating, isurgent, neverfocus, oldstate, isfullscreen;
 	Client *next;
 	Client *snext;
@@ -900,7 +901,8 @@ focus(Client *c)
 		detachstack(c);
 		attachstack(c);
 		grabbuttons(c, 1);
-		XSetWindowBorder(dpy, c->win, scheme[SchemeSel][ColBorder].pixel);
+		XSetWindowBorder(dpy, c->win, bcr_scheme[c->bordercoloridx].color);
+		//XSetWindowBorder(dpy, c->win, scheme[SchemeSel][ColBorder].pixel);
 		setfocus(c);
 	} else {
 		XSetInputFocus(dpy, root, RevertToPointerRoot, CurrentTime);
@@ -1147,6 +1149,22 @@ killclient(const Arg *arg)
 }
 
 void
+save_border_color(Client *c) {
+	XClassHint ch = {NULL, NULL};
+	XGetClassHint(dpy, c->win, &ch);
+
+	c->bordercoloridx = 0;
+	for (unsigned int i = 0; i < LENGTH(bcr_scheme); i++)
+		if (ch.res_class && strcmp(ch.res_class, bcr_scheme[i].xclass) == 0)
+			c->bordercoloridx = i;
+
+	if (ch.res_class)
+		XFree(ch.res_class);
+	if (ch.res_name)
+		XFree(ch.res_name);
+}
+
+void
 manage(Window w, XWindowAttributes *wa)
 {
 	Client *c, *t = NULL;
@@ -1181,7 +1199,12 @@ manage(Window w, XWindowAttributes *wa)
 
 	wc.border_width = c->bw;
 	XConfigureWindow(dpy, w, CWBorderWidth, &wc);
-	XSetWindowBorder(dpy, w, scheme[SchemeNorm][ColBorder].pixel);
+
+	save_border_color(c);
+	XSetWindowBorder(dpy, w, bcr_scheme[c->bordercoloridx].color);
+
+	//XSetWindowBorder(dpy, w, scheme[SchemeNorm][ColBorder].pixel);
+
 	configure(c); /* propagates border_width, if size doesn't change */
 	updatewindowtype(c);
 	updatesizehints(c);
