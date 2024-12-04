@@ -148,6 +148,6 @@ static const BorderColorRule bcr_scheme[] = {
 	{"default",  bcr_default},
 	{"discord",  bcr_discord},
 	{"Spotify",  bcr_spotify},
-	{"Steam",    bcr_steam},
+	{"steam",    bcr_steam},
 	{"Chromium", bcr_chromium}
 };
